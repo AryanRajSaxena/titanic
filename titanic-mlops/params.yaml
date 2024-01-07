@@ -1,0 +1,5 @@
+make_dataset:
+  test_size : 0.25
+train_model:
+  n_estimators : 10
+  max_depth : 6

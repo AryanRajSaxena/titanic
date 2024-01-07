@@ -1,0 +1,60 @@
+schema: '2.0'
+stages:
+  make_dataset:
+    cmd: python .\src\data\make_dataset.py .\data\raw\titanic.csv
+    deps:
+    - path: .\data\raw\titanic.csv
+      hash: md5
+      md5: 3ea25dda9a6ac4f8d1944efff9a37579
+      size: 11294
+    - path: .\src\data\make_dataset.py
+      hash: md5
+      md5: c94224cff833f1bfe417b26fc8be6d39
+      size: 1210
+    params:
+      params.yaml:
+        make_dataset.test_size: 0.25
+  train_model:
+    cmd: python .\src\models\train_model.py .\data\processed\
+    deps:
+    - path: .\data\processed\
+      hash: md5
+      md5: 7f1893df895c24c352a25cf27b11fc2a.dir
+      size: 11349
+      nfiles: 3
+    - path: .\src\models\train_model.py
+      hash: md5
+      md5: 5851ff6c4e2537945cdc7a149d5a89a8
+      size: 1180
+    params:
+      params.yaml:
+        train_model.max_depth: 6
+        train_model.n_estimators: 10
+    outs:
+    - path: .\model\
+      hash: md5
+      md5: 14e35c71c41d6da2fadc8b8d9e5409db.dir
+      size: 59641
+      nfiles: 1
+  visualize:
+    cmd: python .\src\visualization\visualize.py .\model\model.joblib .\data\processed\
+    deps:
+    - path: .\data\processed\
+      hash: md5
+      md5: 7f1893df895c24c352a25cf27b11fc2a.dir
+      size: 11349
+      nfiles: 3
+    - path: .\model\model.joblib
+      hash: md5
+      md5: 5353d7ada431c3d4ed7479ed7086754e
+      size: 59641
+    - path: .\src\visualization\visualize.py
+      hash: md5
+      md5: e6b3c5776525d1a9199716ff254890a6
+      size: 2793
+    outs:
+    - path: dvclive
+      hash: md5
+      md5: f12d45e64d60f5e7e48b02da2ab1df5e.dir
+      size: 141484
+      nfiles: 8
